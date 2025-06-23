@@ -15,7 +15,6 @@ const INTERNAL_PACKAGES = [
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  /** Enables hot reloading for local packages without a build step */
   transpilePackages: INTERNAL_PACKAGES,
   images: {
     remotePatterns: getRemotePatterns(),
@@ -26,16 +25,12 @@ const config = {
     },
   },
   serverExternalPackages: [],
-  // needed for supporting dynamic imports for local content
   outputFileTracingIncludes: {
     '/*': ['./content/**/*'],
   },
   experimental: {
     mdxRs: true,
     reactCompiler: ENABLE_REACT_COMPILER,
-    turbo: {
-      resolveExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-    },
     optimizePackageImports: [
       'recharts',
       'lucide-react',
@@ -46,12 +41,15 @@ const config = {
       ...INTERNAL_PACKAGES,
     ],
   },
+  turbopack: {
+    resolveExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
+  productionBrowserSourceMaps: false,
   modularizeImports: {
     lodash: {
       transform: 'lodash/{{member}}',
     },
   },
-  /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 };
@@ -59,7 +57,6 @@ const config = {
 export default config;
 
 function getRemotePatterns() {
-  /** @type {import('next').NextConfig['remotePatterns']} */
   const remotePatterns = [];
 
   if (SUPABASE_URL) {
