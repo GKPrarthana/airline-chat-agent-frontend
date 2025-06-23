@@ -6,10 +6,11 @@ applications:
         preBuild:
           commands:
             - npm install -g pnpm
+            - pnpm config set shamefully-hoist true
             - pnpm install
         build:
           commands:
-            - pnpm run build
+            - pnpm run build --filter=web
       artifacts:
         baseDirectory: apps/web/.next
         files:
@@ -17,22 +18,4 @@ applications:
       cache:
         paths:
           - node_modules/**/*
-: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm install -g pnpm
-        - pnpm config set shamefully-hoist true
-        - pnpm install
-    build:
-      commands:
-        - pnpm run build --filter=web
-  artifacts:
-    baseDirectory: apps/web/.next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-      - apps/web/node_modules/**/*
+          - apps/web/node_modules/**/*
