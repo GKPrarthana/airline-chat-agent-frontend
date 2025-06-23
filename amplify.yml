@@ -10,7 +10,7 @@ applications:
             - pnpm install
         build:
           commands:
-            - pnpm run build --filter=web
+            - pnpm run build
       artifacts:
         baseDirectory: apps/web/.next
         files:
