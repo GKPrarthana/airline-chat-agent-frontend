@@ -3,8 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        - corepack enable
-        - corepack prepare pnpm@9.12.0 --activate
+        - npm install -g pnpm
+        - pnpm config set shamefully-hoist true
         - pnpm install
     build:
       commands:
@@ -16,4 +16,4 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-      - apps/web/.next/cache/**/*
+      - apps/web/node_modules/**/*
